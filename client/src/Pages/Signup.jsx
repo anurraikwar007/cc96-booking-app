@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api/api";   // ✅ FIXED
 
 function Signup() {
   const navigate = useNavigate();
@@ -22,8 +22,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      // ✅ FIXED (NO localhost)
-      const res = await axios.post("/api/auth/signup", {
+      const res = await API.post("/api/auth/signup", {
         name,
         email,
         password,

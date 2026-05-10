@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -25,8 +25,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      // ✅ FIXED (NO localhost)
-      const res = await axios.post("/api/auth/login", {
+      const res = await API.post("/api/auth/login", {
         email,
         password,
       });
@@ -37,8 +36,7 @@ function Login() {
       navigate(
         res.data.user.role === "vendor"
           ? "/vendor-dashboard"
-          : "/customer-dashboard",
-        { replace: true }
+          : "/customer-dashboard"
       );
     } catch (err) {
       alert(err.response?.data?.message || "Login Failed");
@@ -47,43 +45,23 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <form
-        onSubmit={handleLogin}
-        className="bg-slate-900 p-8 rounded-xl w-96 shadow-lg"
-      >
-        <h2 className="text-2xl mb-6 text-cyan-400 font-bold">
-          Login
-        </h2>
+      <form onSubmit={handleLogin} className="bg-slate-900 p-8 rounded-xl w-96">
+        <h2 className="text-2xl mb-6 text-cyan-400 font-bold">Login</h2>
 
-        <input
-          className="w-full p-2 mb-4 bg-black border border-gray-600 rounded"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <input className="w-full p-2 mb-4 bg-black border" placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)} />
 
-        <input
-          type="password"
-          className="w-full p-2 mb-4 bg-black border border-gray-600 rounded"
+        <input type="password" className="w-full p-2 mb-4 bg-black border"
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          onChange={(e) => setPassword(e.target.value)} />
 
-        <button className="w-full bg-cyan-500 py-2 rounded hover:bg-cyan-600">
+        <button className="w-full bg-cyan-500 py-2 rounded">
           Login
         </button>
 
-        <div className="mt-4 text-center text-sm">
-          <p className="text-gray-400">
-            Don’t have account?{" "}
-            <Link to="/signup" className="text-cyan-400">
-              Signup
-            </Link>
-          </p>
-
-          <Link to="/" className="text-gray-500 block mt-2">
-            ← Back to Home
-          </Link>
-        </div>
+        <Link to="/signup" className="text-cyan-400 block mt-3">
+          Signup
+        </Link>
       </form>
     </div>
   );
