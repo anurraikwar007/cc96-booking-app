@@ -137,7 +137,7 @@ function App() {
         />
 
       </Routes>
-
+           <App />
     </BrowserRouter>
   );
 }
